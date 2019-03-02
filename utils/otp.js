@@ -24,6 +24,7 @@ class OTP {
             console.log("Setting otp");
             try {
                 this.client.set(pin, telephone, 'EX', 600);
+                res();
             } catch (e) {
                 rej(e);
             }
