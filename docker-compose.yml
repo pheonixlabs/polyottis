@@ -1,0 +1,19 @@
+# docker-compose.yml
+# Add this top-level entry
+redis:
+  image: redis
+  container_name: redis
+  expose:
+    - 6379
+
+polyottis:
+  build: ./
+  volumes:
+    - ./:/var/www/app
+  ports:
+    - 3000:3000
+  links:
+    - redis
+  environment:
+    - REDIS_URL=redis://redis
+    # rest of the environment definitions

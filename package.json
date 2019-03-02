@@ -1,0 +1,29 @@
+{
+  "name": "polyottis",
+  "version": "1.0.0",
+  "description": "git@github.com:aarjae/polyottis.git",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aarjae/polyottis.git"
+  },
+  "author": "Raaj Ahiable <https://github.com/aarjae>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aarjae/polyottis/issues"
+  },
+  "homepage": "https://github.com/aarjae/polyottis#readme",
+  "dependencies": {
+    "boom": "^7.3.0",
+    "dotenv": "^6.2.0",
+    "fastify": "^2.0.0",
+    "fastify-bearer-auth": "^4.0.0",
+    "fastify-swagger": "^2.3.1",
+    "redis": "^2.8.0",
+    "swagger": "^0.7.5"
+  }
+}
