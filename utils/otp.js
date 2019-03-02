@@ -1,13 +1,33 @@
-const Database = require("./database");
+"use strict";
+const securePin = require("secure-pin");
+const redis = require("async-redis");
 
-class OTP extends Database {
+class OTP {
     constructor() {
-        super();
+        this.client = redis.createClient(process.env.REDIS_URL);
 
     }
 
-    createOTP(telephone) {
+    generatePin(cb) {
+        try {
+            securePin.generatePin(6, pin => {
+                console.log("Generated pin is", pin);
+                cb(pin);
+            })
+        } catch (e) {
+            throw new Error(e);
+        }
+    }
 
+    async saveOTP(pin, telephone) {
+        return new Promise(async (res, rej) => {
+            console.log("Setting otp");
+            try {
+                this.client.set(pin, telephone, 'EX', 600);
+            } catch (e) {
+                rej(e);
+            }
+        })
     }
 
     verifyOTP() {
