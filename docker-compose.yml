@@ -11,9 +11,10 @@ polyottis:
   volumes:
     - ./:/var/www/app
   ports:
-    - 3000:3000
+    - 8081:8081
   links:
     - redis
   environment:
     - REDIS_URL=redis://redis
-    # rest of the environment definitions
+    - SMS_SERVICE_URL=http://35.184.27.27:8080/api/v1/sms
+    - SECURITY_KEY=y7r39f86yg4hj0897fwhy988wg6
