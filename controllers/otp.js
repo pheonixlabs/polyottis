@@ -1,30 +1,19 @@
-const Database = require("./database");
+const Otp = require("../utils/otp");
+const boom = require("boom");
 
-class OTP extends Database {
-    constructor() {
-        super();
 
-    }
+const otp = new Otp();
 
-    createOTP(telephone) {
+module.exports.createOtp = async (req, reply) => {
+    const {telephone} = req.body;
+    otp.generatePin(async pin => {
+        try {
+            const response = await otp.saveOTP(telephone, pin);
 
-    }
+            reply.status(201).send({success: true, payload: response})
+        } catch (e) {
+            boom.boomify(e)
+        }
+    })
 
-    verifyOTP() {
-
-    }
-
-    pingRedis() {
-        this.client.set("string key", "string val", this.client.print);
-        this.client.hset("hash key", "hashtest 1", "some value", this.client.print);
-        this.client.hset(["hash key", "hashtest 2", "some other value"], this.client.print);
-        this.client.hkeys("hash key", function (err, replies) {
-            console.log(replies.length + " replies:");
-            replies.forEach(function (reply, i) {
-                console.log("    " + i + ": " + reply);
-            });
-        });
-    }
-}
-
-module.exports = OTP;
+};
