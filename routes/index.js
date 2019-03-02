@@ -2,12 +2,13 @@ const otpController = require("../controllers/otp");
 const otpSchema = require("../schema/otp");
 
 
+
 module.exports =  [
     {
         method: "GET",
         url: "/",
         handler: async () => {
-            return "Welcome to Polyottis"
+            return "Welcome to Polyottis";
         }
     },
 

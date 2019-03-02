@@ -8,11 +8,11 @@ module.exports.createOtp = async (req, reply) => {
     const {telephone} = req.body;
     otp.generatePin(async pin => {
         try {
-            const response = await otp.saveOTP(telephone, pin);
-
-            reply.status(201).send({success: true, payload: response})
+            await otp.saveOTP(telephone, pin);
+            reply.status(201).send({success: true, message: "One time pin created successfully"})
         } catch (e) {
-            boom.boomify(e)
+            console.error(e);
+            boom.boomify(e);
         }
     })
 
