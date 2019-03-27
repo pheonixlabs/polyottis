@@ -17,5 +17,11 @@ module.exports =  [
         url: "/api/v1/otp",
         handler: otpController.createOtp,
         schema: otpSchema.createOtpSchema
-    }
+    },
+
+    {
+        method: "GET",
+        url: "/api/v1/otp",
+        handler: otpController.verifyOTP,
+    },
 ];
