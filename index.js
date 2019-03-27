@@ -51,8 +51,8 @@ const startProd = async () => {
     const server = fastify({
         logger: true,
         https: {
-            key: fs.readFileSync(path.join(__dirname, 'file.key')),
-            cert: fs.readFileSync(path.join(__dirname, 'file.cert'))
+            key: fs.readFileSync(path.join(__dirname, 'key.pem')),
+            cert: fs.readFileSync(path.join(__dirname, 'cert.pem'))
         }
     });
     registerMiddlewares(server);
