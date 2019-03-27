@@ -19,11 +19,13 @@
   "homepage": "https://github.com/aarjae/polyottis#readme",
   "dependencies": {
     "async-redis": "^1.1.7",
+    "axios": "^0.18.0",
     "boom": "^7.3.0",
     "dotenv": "^6.2.0",
-    "fastify": "^2.0.0",
+    "fastify": "^2.1.0",
     "fastify-bearer-auth": "^4.0.0",
-    "fastify-swagger": "^2.3.1",
+    "fastify-swagger": "^2.3.2",
+    "hubtel-sms-node": "^1.0.3",
     "secure-pin": "^1.0.14",
     "swagger": "^0.7.5"
   }
