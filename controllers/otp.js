@@ -27,17 +27,16 @@ module.exports.verifyOTP = async (req, reply) => {
         const queriedOTP = await otp.getOTP({
             telephone
         });
-        console.log(queriedOTP, "queriedOTP.....");
 
         if(!queriedOTP){
             return reply.status(403).send({ success: false, message: "Pin verification failed"})
         }
 
         if(queriedOTP !== pin){
-            return reply.status(403).send({ success: false, message: "Pin is false", payload: queriedOTP})
+            return reply.status(403).send({success: false, message: "Pin is false"})
         }
 
-        return reply.status(200).send({success: true, message: "Pin verified successfully", payload: queriedOTP})
+        return reply.status(200).send({success: true, message: "Pin verified successfully"})
     }catch (e) {
         reply.status(500).send(boom.boomify(e))
     }
