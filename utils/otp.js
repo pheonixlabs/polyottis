@@ -1,17 +1,14 @@
-"use strict";
 const securePin = require("secure-pin");
 const redis = require("async-redis");
 
 class OTP {
     constructor() {
         this.client = redis.createClient(process.env.REDIS_URL);
-
     }
 
     generatePin(cb) {
         try {
             securePin.generatePin(6, pin => {
-                console.log("Generated pin is", pin);
                 cb(pin);
             })
         } catch (e) {
@@ -23,7 +20,7 @@ class OTP {
         return new Promise(async (res, rej) => {
             console.log("Setting otp");
             try {
-                this.client.set(pin, telephone, 'EX', 600);
+                await this.client.set(pin, telephone, 'EX', 600);
                 res();
             } catch (e) {
                 rej(e);
@@ -31,8 +28,17 @@ class OTP {
         })
     }
 
-    verifyOTP() {
-
+    getOTP(opts) {
+        console.log(opts.telephone);
+        return new Promise(async (res, rej) => {
+            console.log("Setting otp");
+            try {
+                const result = this.client.get(opts.telephone);
+                res(result);
+            } catch (e) {
+                rej(e);
+            }
+        })
     }
 
     pingRedis() {
