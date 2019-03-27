@@ -3,30 +3,40 @@ const dotenv = require("dotenv");
 const auth = require("fastify-bearer-auth");
 const routes = require("./routes");
 const swaggerOptions = require("./config/swagger");
+const fs = require("fs");
+
 
 // Loading environment vars
 dotenv.load("./env");
 
-// Loading authentication keys... The key requires a Bearer token, still don't see the point so automatically adding
-const keys = new Set([process.env.SECURITY_KEY]);
 
-const server = fastify({
-    logger: true
-});
+const registerMiddlewares = (server) => {
+    // Loading authentication keys... The key requires a Bearer token
+    const keys = new Set([process.env.SECURITY_KEY]);
 
-// Registering Swagger for generating API documentation
-server.register(require("fastify-swagger"), swaggerOptions);
+    // Registering Swagger for generating API documentation
+    server.register(require("fastify-swagger"), swaggerOptions);
 
-// Registering authentication scheme
-server.register(auth, { keys });
+    // Registering authentication scheme
+    server.register(auth, {keys});
+};
 
-// Setting routes
-routes.forEach(route => {
-    server.route(route)
-});
+const registerRoutes = server => {
+    // Setting routes
+    routes.forEach(route => {
+        server.route(route)
+    });
+};
 
-// Run the server
-const start = async () => {
+
+// Run the server in dev mode
+const startDev = async () => {
+    const server = fastify({
+        logger: true
+    });
+    registerMiddlewares(server);
+    registerRoutes(server);
+
     try{
         await server.listen(process.env.PORT, '0.0.0.0');
         server.swagger();
@@ -36,8 +46,34 @@ const start = async () => {
     }
 };
 
+// Run the server in prod mode
+const startProd = async () => {
+    const server = fastify({
+        logger: true,
+        https: {
+            key: fs.readFileSync(path.join(__dirname, 'file.key')),
+            cert: fs.readFileSync(path.join(__dirname, 'file.cert'))
+        }
+    });
+    registerMiddlewares(server);
+    registerRoutes(server);
+
+    try {
+        await server.listen(process.env.PORT, '0.0.0.0');
+        server.swagger();
+    } catch (e) {
+        server.log.error(e);
+        process.exit(1)
+    }
+};
+
+
 (async function() {
-    await start();
+    if (process.env.NODE_ENV !== "PRODUCTION") {
+        await startDev();
+    } else {
+        await startProd();
+    }
 })();
 
 
