@@ -1,5 +1,3 @@
-# docker-compose.yml
-# Add this top-level entry
 redis:
   image: redis
   container_name: redis
@@ -12,8 +10,3 @@ polyottis:
     - 8081:8081
   links:
     - redis
-  environment:
-    - REDIS_URL=redis://redis
-    - SECURITY_KEY=y7r39f86yg4hj0897fwhy988wg6
-    - SMS_URL=http://0.0.0.0:8080/api/v1/sms
-    - SMS_URL_SECURITY_KEY=bearer i8j89fjuf3hfw9fufhwuhuwf
