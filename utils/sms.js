@@ -1,19 +1,30 @@
-const axios = require("axios");
+require("dotenv").load("../.env");
+const boom = require("boom");
 
-const url = process.env.SMS_URL;
-const token = process.env.SMS_URL_SECURITY_KEY;
+const SMSAgent = require("hubtel-sms-node")({
+    clientId: process.env.HUBTEL_CLIENT_ID,
+    clientSecret: process.env.HUBTEL_CLIENT_SECRET
+});
 
 
-module.exports.sendSMS = async (from, to, pin) => {
+module.exports.sendSMS = (opts) => {
     return new Promise(async (res, rej) => {
+        // Creating message payload
+        const payload = {
+            from: opts.from,
+            to: opts.to,
+            registeredDelivery: true,
+            message: "Your verification code is " + opts.pin
+        };
+
+        console.log(payload);
         try{
-            await axios.post(url,
-                { from, to, message: ("Your verification code is " + pin) },
-                { headers: {Authorization: token} });
+            await SMSAgent.sendSMS(payload);
             res();
-        }catch (e) {
-            rej(e)
+        }catch (err) {
+            rej(err);
         }
     })
-
 };
+
+
