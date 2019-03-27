@@ -14,7 +14,7 @@ module.exports =  [
 
     {
         method: "POST",
-        url: "/api/v1/otp/create",
+        url: "/api/v1/otp",
         handler: otpController.createOtp,
         schema: otpSchema.createOtpSchema
     }
