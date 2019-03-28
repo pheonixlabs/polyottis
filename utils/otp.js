@@ -6,8 +6,11 @@ class OTP {
         this.client = redis.createClient({
             host: process.env.REDIS_HOST,
             port: process.env.REDIS_PORT,
-            password: process.env.REDIS_PASSWORD
+            auth_pass: process.env.REDIS_PASSWORD
         });
+
+        this.client.on("ready", () => console.log("Connection to redis has been made"));
+        this.client.on("error", () => console.log("Connection to redis failed: ", error))
     }
 
     generatePin(cb) {
