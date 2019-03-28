@@ -3,7 +3,11 @@ const redis = require("async-redis");
 
 class OTP {
     constructor() {
-        this.client = redis.createClient(process.env.REDIS_URL);
+        this.client = redis.createClient({
+            host: process.env.REDIS_HOST,
+            port: process.env.REDIS_PORT,
+            password: process.env.REDIS_PASSWORD
+        });
     }
 
     generatePin(cb) {
