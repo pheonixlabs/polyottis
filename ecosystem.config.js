@@ -17,7 +17,9 @@ module.exports = {
             HUBTEL_CLIENT_ID: "",
             HUBTEL_CLIENT_SECRET: "",
             SECURITY_KEY: "",
-            REDIS_URL: ""
+            REDIS_URL: "",
+            HTTPS_CERT: "",
+            HTTPS_KEY: ""
         }
     }]
 };
